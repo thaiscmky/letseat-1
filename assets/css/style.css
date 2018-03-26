@@ -1,0 +1,176 @@
+html {
+    font-family: 'Montserrat', sans-serif;
+    background: url("../images/main-bg.jpg") no-repeat center;
+}
+
+body {
+    background-color: transparent; 
+    overflow: hidden;   
+}
+
+.main-wrapper {
+    width: 960px;
+    margin: auto;
+}
+
+/* Landing/Search CSS */
+header {
+    position: relative;
+    top: -20vh;
+    height: 100vh;    
+}
+
+#landing-background {
+    position: fixed;    
+    background: url("../images/landing-bg.jpg") no-repeat center;
+    background-size: cover;    
+    height: 120vh;
+    width: 100%;
+    z-index: -1;
+}
+
+#landing-content {
+    position: relative;
+    top: -6.854em; /* Set this is negative font-size of #landing-header*/
+    text-align: center;
+}
+
+#form-content {
+    text-align: center;
+}
+
+#landing-container {
+    position: relative;
+    top: 20vh;
+    width: 100%;
+    height: 100%;
+}
+
+#landing-header {
+    font-size: 6.854em;
+    color: #fff;
+    font-weight: 900;    
+}
+
+#search-container {
+    background-color: rgba(30, 30, 30, 0.7);
+    font-size: 2em;
+    padding: 1em 1em 1em 1em;
+    color: #fff;    
+    border-radius: 1rem;
+}
+
+.zip-sub, .search-sub {    
+    margin: 5px 0;
+    font-size: .618em;
+}
+
+.suggestion {
+    position: absolute;    
+}
+
+#suggestions-2 {
+    top: 1em;
+    opacity: .75;
+}
+
+#suggestions-3 {
+    top: 2em;
+    opacity: .50;
+}
+
+#suggestions-4 {
+    top: 3em;
+    opacity: .25;
+}
+
+#suggestions-5 {
+    top: 4em;
+    opacity: 0;
+}
+
+
+/* Displays CSS */
+#main-header {    
+    text-align: center;
+    font-size: 3.375em;
+    color: #fff;
+    font-weight: 900;
+}
+
+#main-content {                
+    border: 4px solid #444;
+    background-color: #fff;
+}
+
+#main-container {
+    /* position: relative;
+    top: -5.063em;     */
+    height: 100vh;
+}
+
+#create-container, #result-container {
+    padding-left: 15px;
+}
+
+/* Results CSS */
+
+.display-header{
+    font-size: 2.618em;
+    padding: 10px 0px 10px 0px;
+    border-bottom: solid 3px #444;
+    /* margin-bottom: 15px; */
+}
+
+.column {
+    padding: 15px;
+}
+
+.card-header {
+    background-color: #444;
+    color: #fff;
+}
+
+.card button {
+    border-radius: 0;
+}
+
+.card-image {
+    height: 100px;
+    width: 100px;
+    padding: 0;
+}
+
+.card-list {
+    padding: 10px 0 10px 10px;
+}
+
+.pre-scrollable{
+    max-height: 450px;
+    overflow-x: hidden;
+}
+
+#result-footer-text, #create-footer-text {
+    border-radius: 0;
+}
+
+/* This is the custom Scrollbar */
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666; 
+}

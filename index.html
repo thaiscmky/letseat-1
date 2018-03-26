@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Let's Eat!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- Load reset.css & style.css -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+    <!-- Load hover.css -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/hover.css">
+
+    <!-- firebase config -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCjIfkvFTUl4ZaOKePZUiOc6SxlH8bhkss",
+            authDomain: "letseat-258fe.firebaseapp.com",
+            databaseURL: "https://letseat-258fe.firebaseio.com",
+            projectId: "letseat-258fe",
+            storageBucket: "letseat-258fe.appspot.com",
+            messagingSenderId: "1090197471419"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDQvxT4o1IGoIDsnXpBko6SnrPEI9NA1DU",
+            authDomain: "lets-eat-be2d8.firebaseapp.com",
+            databaseURL: "https://lets-eat-be2d8.firebaseio.com",
+            projectId: "lets-eat-be2d8",
+            storageBucket: "lets-eat-be2d8.appspot.com",
+            messagingSenderId: "844468448918"
+        };
+        firebase.initializeApp(config);
+    </script> -->
+
+    <!-- Load Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script data-main="./assets/javascript/script" src="./assets/javascript/lib/require.js"></script>
+</head>
+
+<body>
+    <!-- This is the HTML for Land Display -->
+    <header>
+        <div id="landing-background"></div>
+        <div id="landing-container" class="container d-flex align-items-center">
+            <div class="main-wrapper">
+                <div id="landing-content">
+                    <div id="landing-header">Hungry?</div>
+                    <div id="search-container" class="container">
+                        <form id="form-content" data-bind="submit: submitSearch">
+                            <div class="row">
+                                <div class="col-6 landing-label">
+                                    <label for="zipCode">What is your Zip Code?</label>
+                                    <input type="text" class="form-control" id="zipCode" data-bind="value: zipCode">
+                                </div>
+                                <div class="col-6 landing-label">
+                                    <label for="searchTerm">What are you craving?</label>
+                                    <input type="text" class="form-control" id="searchTerm" data-bind="value: searchTerm">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-6 zip-sub" data-bind="text: zipInfo"></label>
+                                <label class="col-6 search-sub" style="white-space: nowrap">How about some&nbsp;
+                                    <label id="suggestions-1" class="suggestion">pizza?</label>
+                                    <label id="suggestions-2" class="suggestion">rib-eye steak?</label>
+                                    <label id="suggestions-3" class="suggestion">ice cream?</label>
+                                    <label id="suggestions-4" class="suggestion">fried chicken?</label>
+                                    <label id="suggestions-5" class="suggestion">texas bbq?</label>
+                                </label>
+                            </div>
+                            <button id="submitSearch" type="submit" class="btn btn-warning hvr-fade">Let's Eat!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="main-container" class="container d-flex align-items-center">
+        <div class="main-wrapper">
+            <div id="main-header">Let's Eat!</div>
+            <div id="main-content" style="display: none;">
+                <!-- This is the HTML for Result Display -->
+                <div id="result-display" class="" data-bind="visible: resultsVisible" style="display: none;">
+
+                    <div class="display-header col-12">
+                        <p class="text-center">Any of these activities interest you?</p>
+                    </div>
+                    <div id="result-container" class="pre-scrollable">
+                        <div class="row" data-bind="foreach: currentEvents">
+                            <div class="col-4 column" data-bind="$index()">
+                                <div class="card">
+                                    <p class="card-header" data-bind="text: name"></p>
+                                    <div class="card-info container">
+                                        <div class="row">
+                                            <img class="card-image" data-bind="attr:{'src': image_url}">
+                                            <div class="card-list col" data-bind="foreach: users">
+                                                <p class="card-name" data-bind="text: ($index() + 1) + '. ' + firstName + ' ' + lastName"></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <!-- <p class="join-max-seats-display" data-bind="text: 'Available Seats: '+users().length+'/'+ maxSeats"></p>  -->
+                                   <p class="join-max-seats-display" data-bind="text:'Available Seats: '+users().length+'/'+ maxSeats()"></p> 
+                                    <button class="btn btn-warning-reverse hvr-fade join-button" data-bind="click: $root.joinEvent">Join</button>
+                                    <button class="btn btn-warning-reverse hvr-fade info-button" data-toggle="modal" data-target="#createModal">Info</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TO DO MAKE THIS PRETTY AND FUNCTIONAL -->
+                    <div id="result-footer" class="">
+                        <div class="col-12"></div>
+                        <button id="result-footer-text" class="col-12 btn btn-warning hvr-fade" data-bind="click: navToCreate"> None of these interest me... Create an Event</button>
+                    </div>
+
+                </div>
+
+                <!-- This is the HTML for the Modal that pops up when you click INFO in results-display -->
+                <div id="createModal" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="modal-title">Restaurant name goes here...</div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- THIS IS WHERE THE HTML GOES FOR WHAT YOU WANT TO GO IN THE MODAL! -->
+                                THIS IS WHERE THE HTML GOES FOR WHAT YOU WANT TO GO IN THE MODAL!
+                                <div>This is a test to make sure we can call data from our results observable</div>
+                                <div data-bind="results()["></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning-reverse hvr-fade" data-dismiss="modal" aria-label="close">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- This is the HTML for Create Display -->
+                <div id="create-display" data-bind="visible: createVisible" style="display: none;">
+
+                    <div class="display-header col-12">
+                        <p class="text-center">Create an event?</p>
+                    </div>
+
+                    <div id="create-container" class="pre-scrollable">
+                        <div class="row" data-bind="foreach: createEventList">
+                            <div class="col-4 column" data-bind="$index()">
+                                <div class="card">
+                                    <p class="card-header" data-bind="text: name"></p>
+                                    <div class="card-info container">
+                                        <div class="row">
+                                            <img class="card-image" data-bind="attr:{'src': image_url}">
+                                            <form class="col d-flex align-items-center">
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">Seats</div>
+                                                    </div>
+                                                    <input type="number" class="form-control" class="seat-input" placeholder="Default: 4" data-bind="value: maxSeats">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <butaton class="btn btn-warning-reverse hvr-fade create-button" data-bind="click: $root.createEvent">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TO DO MAKE THIS PRETTY AND FUNCTIONAL -->
+                    <div id="create-footer" class="">
+                        <div class="col-12"></div>
+                        <button id="create-footer-text" class="col-12 btn btn-warning hvr-fade" data-bind="click: navToResult"> Go back to browsing results</button>
+                    </div>
+
+                </div>
+
+                <!-- This is the HTML for User Display -->
+                <div id="user-display" class="container" data-bind="visible: userVisible" style="display: none;">
+                    Please enter in your info *NOTE YEA THIS MESSAGE AIN'T FINAL CHANGE IT TO SOMETHING NICER SOUNDING*
+                    <form id="user-form">
+                        <div class="form-group">
+                            <label for="firstNameInput">First Name</label>
+                            <input type="text" class="form-control" id="firstNameInput" placeholder="John" data-bind="value: firstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastNameInput">Last Name</label>
+                            <input type="text" class="form-control" id="lastNameInput" placeholder="Doe" data-bind="value: lastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInput">Email</label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="John@Doe.com" data-bind="value: email">
+                        </div>
+                        <button id="submitInfo" type="submit" class="btn btn-warning-reverse hvr-fade btn-primary" data-bind="click: submitUserInfo">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
